@@ -214,12 +214,24 @@ The actual time decreased from 7.198 to 6.489 seconds.The cost remained roughly 
 ## Subquery 2
 **Default Index**
 
+![14031730330719_ pic](https://github.com/user-attachments/assets/24049701-12c7-4abd-8d00-75b196efa238)
+
 **Index 1:**
+
+
+![14051730330745_ pic](https://github.com/user-attachments/assets/812d2e90-83aa-4196-ba95-2dbf2b2ef4ae)
 
 **Index 2:**
 
 
+![14071730330801_ pic](https://github.com/user-attachments/assets/712b43be-a064-437b-b903-0f4fbd432c29)
+
 **Index 3:**
+
+
+
+![14091730330868_ pic](https://github.com/user-attachments/assets/fb178eb0-c7cc-4dcf-b8a0-2c624c1c39ad)
+
 
 
 ## Subquery 3
