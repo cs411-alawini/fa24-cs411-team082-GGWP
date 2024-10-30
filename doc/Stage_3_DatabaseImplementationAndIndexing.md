@@ -1,6 +1,10 @@
 # Database Implementation and Indexing
 
+## Our tables in the terminal
+![12101730233535_ pic](https://github.com/user-attachments/assets/9e7bfbdf-84ba-496b-8aca-c2520dee9219)
+
 ## DDL Table Commands
+
 ```
 CREATE DATABASE Rec;
 USE Rec;
