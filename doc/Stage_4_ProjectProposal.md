@@ -5,11 +5,13 @@
 Discuss what you think your application achieved or failed to achieve regarding its usefulness.
 
 ## Schema and Data Changes
-Discuss if you changed the schema or source of the data for your application
+Discuss if you changed the schema or source of the data for your application.
+The data was cleaned to 
 
 ## ER Diagram / Table Implementation Changes
-Discuss what you change to your ER diagram and/or your table implementations. 
 What are some differences between the original design and the final design? Why? What do you think is a more suitable design? 
+The Comment attribute in Comments was modified to be Message to reduce naming conflicts/confusions in the code. 
+
 
 ## Functionalities Additions/Removals
 Discuss what functionalities you added or removed. Why?
