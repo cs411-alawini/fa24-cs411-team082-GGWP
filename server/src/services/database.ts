@@ -18,7 +18,7 @@ export async function getAllRecreations(): Promise<Recreation[]> {
 
 export async function getRecreationByName(name: string): Promise<Recreation | undefined> {
     const [rows] = await pool.query<RowDataPacket[]>(
-        "SELECT * FROM Recreation WHERE RecName LIKE '%${name}%", [name]
+        "SELECT * FROM Recreation WHERE RecName LIKE ?", [`%${name}%`]
     );
     return rows[0] as Recreation | undefined;
 }   

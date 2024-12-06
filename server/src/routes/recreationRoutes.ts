@@ -15,9 +15,9 @@ router.get("/", async (req: Request, res: Response) => {
 
 // Fetch recreation by name
 router.get("/:name", async (req: Request, res: Response) => {
-    const recName = req.params.name;
-    console.log(`Received recName: ${recName}`);  // Log the received recName
-
+    const recName = decodeURIComponent(req.params.name);
+    console.log('Decoded recName:', recName);  // Should show the exact RecName, including quotes if present
+    
     try {
         const recreation = await getRecreationByName(recName);
         if (recreation) {
@@ -26,6 +26,7 @@ router.get("/:name", async (req: Request, res: Response) => {
             res.status(404).json({ message: `Recreation '${recName}' not found.` });
         }
     } catch (error) {
+        console.log('Decoded recName:', recName);  // Should show the exact RecName, including quotes if present
         res.status(500).json({ message: "Error fetching recreation data." });
     }
 });

@@ -88,12 +88,19 @@ export const searchRecData = (query: string): Promise<Recreation[]> => {
 
 
 export const getRecreationByRecName = (RecName: string): Promise<Recreation | undefined> => {
+    // Ensure that RecName is encoded here, just in case it's not properly handled by React Router
+    const encodedRecName = encodeURIComponent(RecName);
+    console.log("Encoded RecName:", encodedRecName);  // Log the encoded value to verify
     return httpClient
-        .get(`/api/recreation/${encodeURIComponent(RecName)}`)
+        .get(`/api/recreation/${encodedRecName}`)
         .then((response) => {
             return response.data;
         })
-}
+        .catch((error) => {
+            console.log("Error fetching recreation:", error); 
+            throw error; 
+        });
+};
 
 export const addDiscount = (newDiscount: Omit<Discounts, 'DiscountId'>): Promise<Discounts> => {
     return httpClient

@@ -73,7 +73,7 @@ const CommentTimeline: React.FC<CommentTimelineProps> = ({ comments, onDelete, o
                                 {formatDate(comment.DatePosted)}
                             </h4>
                             <p className="text-slate-500">
-                                {comment.Username}
+                                {comment.Message}
                             </p>
 
                             
