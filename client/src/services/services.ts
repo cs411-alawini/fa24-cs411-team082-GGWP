@@ -120,7 +120,7 @@ export const deleteDiscount = (DiscountId: number): Promise<void> => {
     .then((response) => response.data);
 }
 
-export const addComment = (newComment: Omit<Comments, 'CommentId'>): Promise<Comments> => {
+export const addComment = (newComment: {Message: string, Username: string, DatePosted: string}): Promise<Comments> => {
     return httpClient
     .post(`/api/comments`, newComment)
     .then((response) => response.data);

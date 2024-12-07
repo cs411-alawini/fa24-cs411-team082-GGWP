@@ -24,9 +24,17 @@ export async function getRecreationByName(name: string): Promise<Recreation | un
 }   
 
 // Comments
-export async function getAllComments(): Promise<Comments[]> {
-    console.log("Querying database for comments...");
 
+export async function renameCommentColumn() {
+    try {
+        await pool.query("ALTER TABLE Comments RENAME COLUMN Comment TO Message;");
+        console.log("Column renamed successfully.");
+    } catch (error) {
+        console.error("Error renaming column:", error);
+    }
+}
+
+export async function getAllComments(): Promise<Comments[]> {
     const [rows] = await pool.query<RowDataPacket[]>("SELECT * FROM Comments ORDER BY CommentId LIMIT 1, 1000000;");
     return rows as Comments[];
 }

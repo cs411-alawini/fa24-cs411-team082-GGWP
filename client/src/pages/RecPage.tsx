@@ -8,6 +8,7 @@ const RecPage: React.FC = () =>  {
   const { RecName } = useParams();
   const [rec, setRecreation] = useState<Recreation | undefined>(undefined);
   const [comments, setComments] = useState<Comments[]>([]);
+  const [comment, setComment] = useState<Comments>();
   
   const [fetchNewComment, setFetchNewComment] = useState<boolean>(false);
 
@@ -22,6 +23,7 @@ const RecPage: React.FC = () =>  {
   }, [RecName]);
 
   useEffect(() => { }, [rec]);
+  useEffect(() => { }, [comment]);
 
 
   useEffect(() => {
@@ -89,8 +91,9 @@ const RecPage: React.FC = () =>  {
               onDelete={handleDeleteComment}
               onAdd={handleAddComment}
               onUpdate={handleUpdateComment}
-              RecName={rec!.RecName}
-              RecType={rec!.RecType}
+              Message={comment?.Message || "Comment undefined"}
+              Username={comment?.Username || "Username undefined"}
+              DatePosted={comment?.DatePosted || "Date undefined"}
             />
         </div>
     )}

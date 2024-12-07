@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Comments, addComment, deleteComment, updateComment } from "../../services/services";
 import CommentForm from "../CommentForm/CommentForm";
 
-// Helper function to format date from string (assuming DatePosted is in string format)
+// format date from string - dateposted
 const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
     return date.toLocaleString();
@@ -13,33 +13,47 @@ interface CommentTimelineProps {
     onDelete: (CommentId: number) => void;
     onAdd: (newComment: Comments) => void;
     onUpdate: (updatedComment: Comments) => void;
-    RecName: string;
-    RecType: string;
+    Message: string;
+    Username: string;
+    DatePosted: string;
 }
 
-const CommentTimeline: React.FC<CommentTimelineProps> = ({ comments, onDelete, onAdd, onUpdate, RecName, RecType }) => {
-    const [newCommentText, setNewCommentText] = useState<string>("");
+const CommentTimeline: React.FC<CommentTimelineProps> = ({ comments, onDelete, Message, Username, DatePosted }) => {
     const [isFormVisible, setIsFormVisible] = React.useState(false);
     const [commentToEdit, setCommentToEdit] = React.useState<Comments | null>(null);
     
-    const handleDelete = async (CommentId: number) => {
-        await deleteComment(CommentId);
-        onDelete(CommentId);
-    };
-
     const handleAddComment = () => {
         setCommentToEdit(null);
         setIsFormVisible(true);
     };
-
+    
     const handleEditComment = (updatedComment: Comments) => {
         setCommentToEdit(updatedComment);
         setIsFormVisible(true);
     };
 
-    const handleFormSubmit = async (commentText: { Message: string; Username: string; DatePosted: string }) => {
+
+    const handleDelete = async (CommentId: number) => {
+        await deleteComment(CommentId);
+        onDelete(CommentId);
+    };
+
+    const handleFormSubmit = async (commentData: { cMessage: string; cUser: string; cDate: string }) => {
+        const completeCommentData = {
+            ...commentData,
+            Message: Message,
+            Username: Username,
+            DatePosted: DatePosted
+        };
+
+        if (commentToEdit) {
+            await updateComment({ ...commentToEdit, ...completeCommentData }); // right overwrites left
+        } else {
+            await addComment(completeCommentData);
+        }
+
         setCommentToEdit(null);
-        setIsFormVisible(false);
+        setIsFormVisible(false);    
     };
 
 
@@ -103,12 +117,13 @@ const CommentTimeline: React.FC<CommentTimelineProps> = ({ comments, onDelete, o
             {
                 isFormVisible && (
                     <CommentForm onClose={() => setIsFormVisible(false)} 
-                        onSubmit={( 
+                    onSubmit={( 
                         { Message, Username, DatePosted }) => {
                             console.log({ Message, Username, DatePosted });
                             setIsFormVisible(false);
                         }
-                    } defaultCommentText={commentToEdit ? { Message: commentToEdit.Message, Username: commentToEdit.Username, DatePosted: commentToEdit.DatePosted } : undefined} />
+                    } defaultCommentData={commentToEdit ? { Message: commentToEdit.Message, Username: commentToEdit.Username, DatePosted: commentToEdit.DatePosted } : undefined}
+ />
                 )
         
             }
