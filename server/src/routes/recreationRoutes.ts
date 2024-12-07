@@ -6,7 +6,10 @@ const router = Router();
 // Fetch all recreation activities
 router.get("/", async (req: Request, res: Response) => {
     try {
+        console.log("here");
         const recreation = await getAllRecreations();
+        console.log(recreation);
+
         res.status(200).json(recreation);
     } catch (error) {
         res.status(500).json({ message: "Error fetching recreation data." });

@@ -37,7 +37,7 @@ const CommentTimeline: React.FC<CommentTimelineProps> = ({ comments, onDelete, o
         setIsFormVisible(true);
     };
 
-    const handleFormSubmit = async (commentText: { Message: string; Username: string; DatePosted: string }) => {
+    const handleFormSubmit = async (commentText: { Messages: string; Username: string; DatePosted: string }) => {
         setCommentToEdit(null);
         setIsFormVisible(false);
     };
@@ -73,7 +73,7 @@ const CommentTimeline: React.FC<CommentTimelineProps> = ({ comments, onDelete, o
                                 {formatDate(comment.DatePosted)}
                             </h4>
                             <p className="text-slate-500">
-                                {comment.Message}
+                                {comment.Messages}
                             </p>
 
                             
@@ -103,11 +103,11 @@ const CommentTimeline: React.FC<CommentTimelineProps> = ({ comments, onDelete, o
                 isFormVisible && (
                     <CommentForm onClose={() => setIsFormVisible(false)} 
                         onSubmit={( 
-                        { Message, Username, DatePosted }) => {
-                            console.log({ Message, Username, DatePosted });
+                        { Messages, Username, DatePosted }) => {
+                            console.log({ Messages, Username, DatePosted });
                             setIsFormVisible(false);
                         }
-                    } defaultCommentText={commentToEdit ? { Message: commentToEdit.Message, Username: commentToEdit.Username, DatePosted: commentToEdit.DatePosted } : undefined} />
+                    } defaultCommentText={commentToEdit ? { Messages: commentToEdit.Messages, Username: commentToEdit.Username, DatePosted: commentToEdit.DatePosted } : undefined} />
                 )
         
             }

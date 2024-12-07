@@ -49,7 +49,7 @@ const HomePage: React.FC = () => {
           // Fetch based on search query
           console.log("in searched.");
           const searchData = await getRecreationByRecName(searchQuery);
-          data = searchData ? [searchData] : []; // If data exists, wrap it in an array, else use an empty array
+          data = searchData ? [searchData] : []; 
         } else {
           // Fetch all data if no search query
           data = await getAllRecData();

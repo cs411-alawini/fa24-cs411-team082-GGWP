@@ -15,8 +15,6 @@ const RecPage: React.FC = () =>  {
     if (RecName) { 
       const fetchRecreation = async () => {
         const data = await getRecreationByRecName(RecName);
-        console.log('RecName from useParams:', RecName);
-
         console.log('Initial Fetched Data:', data);      
         setRecreation(data);
       };
