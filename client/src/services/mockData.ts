@@ -27,21 +27,21 @@ export const commentsData = [
         CommentId: 1,
         Username: "SlyFox8",
         RecName: "Bird Station Park",
-        Messages: "A breathtaking hello, perfect for nature lovers!",
+        Message: "A breathtaking hello, perfect for nature lovers!",
         DatePosted: "2023-05-12"
     },
     {
         CommentId: 2,
         Username: "DumbBunny8",
         RecName: "Cove Island",
-        Messages: "Great place for hello and adults alike, lots to explore.",
+        Message: "Great place for hello and adults alike, lots to explore.",
         DatePosted: "2023-06-21"
     },
     {
         CommentId: 3,
         Username: "HelloWorld",
         RecName: "Boys Town Hall of History",
-        Messages: "Lovely park in the heart of NYC. A must-visit!",
+        Message: "Lovely park in the heart of NYC. A must-visit!",
         DatePosted: "2023-07-10"
     },
     // Add more entries as needed

@@ -2,19 +2,19 @@ import React from 'react';
 
 interface CommentFormProps {
   onClose: () => void;
-  onSubmit: (commentText: { Messages: string; Username: string; DatePosted: string }) => void;
-  defaultCommentText?: { Messages: string; Username: string; DatePosted: string };
+  onSubmit: (commentText: { Message: string; Username: string; DatePosted: string }) => void;
+  defaultCommentText?: { Message: string; Username: string; DatePosted: string };
 }
 
 const CommentForm: React.FC<CommentFormProps> = ({ onClose, onSubmit, defaultCommentText }) => {
-  const [text, setText] = React.useState<string>(defaultCommentText?.Messages || '');
+  const [text, setText] = React.useState<string>(defaultCommentText?.Message || '');
   const [user, setUser] = React.useState<string>(defaultCommentText?.Username || '');
   const [date, setDate] = React.useState<string>(defaultCommentText?.DatePosted || '');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   
-    onSubmit({ Messages: text, Username: user, DatePosted: date });
+    onSubmit({ Message: text, Username: user, DatePosted: date });
     onClose();
   };
 

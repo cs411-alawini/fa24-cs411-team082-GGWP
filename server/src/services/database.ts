@@ -38,10 +38,10 @@ export async function getCommentsByRecreation(recName: string): Promise<Comments
 }
 
 export async function addComment(newComment: Comments): Promise<void> {
-    const { CommentId, RecName, Messages, DatePosted } = newComment;
+    const { CommentId, RecName, Message, DatePosted } = newComment;
     await pool.query(
-        "INSERT INTO Comments (CommentId, RecName, Messages, DatePosted) VALUES (?, ?, ?, ?)",
-        [CommentId, RecName, Messages, DatePosted]
+        "INSERT INTO Comments (CommentId, RecName, Message, DatePosted) VALUES (?, ?, ?, ?)",
+        [CommentId, RecName, Message, DatePosted]
     );
 }
 
