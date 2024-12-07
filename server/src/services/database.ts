@@ -25,7 +25,9 @@ export async function getRecreationByName(name: string): Promise<Recreation | un
 
 // Comments
 export async function getAllComments(): Promise<Comments[]> {
-    const [rows] = await pool.query<RowDataPacket[]>("SELECT * FROM Comments");
+    console.log("Querying database for comments...");
+
+    const [rows] = await pool.query<RowDataPacket[]>("SELECT * FROM Comments ORDER BY CommentId LIMIT 1, 1000000;");
     return rows as Comments[];
 }
 

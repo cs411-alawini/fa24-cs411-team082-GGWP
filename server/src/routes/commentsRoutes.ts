@@ -7,9 +7,22 @@ const router = Router();
 // Fetch all comments
 router.get("/", async (req: Request, res: Response) => {
     try {
-        const comments = await getAllComments(); // Use getAllComments from database.ts
-        res.status(200).json(comments); // Return all comments
+        console.log("Comments from DB:");
+
+        const comments = await getAllComments(); 
+        console.log("Comments from DB:", comments);
+
+        // const modifiedComments = comments.map(comment => ({
+        //     ...comment,
+        //     Message: comment.Comment, 
+        //     Comment: undefined, 
+        // }));
+        console.log("Fetched Comments:", comments); // Log data
+
+        res.status(200).json(comments); 
     } catch (error) {
+        console.error("Error fetching comments:", error);  // Log the actual error
+
         res.status(500).json({ message: "Error fetching all comments." });
     }
 });

@@ -68,12 +68,13 @@ const CommentTimeline: React.FC<CommentTimelineProps> = ({ comments, onDelete, o
                         role="article"
                         className="relative pl-6 before:absolute before:left-0 before:top-2 before:z-10 before:h-2 before:w-2 before:-translate-x-1/2 before:rounded-full before:bg-emerald-500 before:ring-2 before:ring-white"
                     >
+
                         <div className="flex flex-col flex-1 gap-2">
                             <h4 className="text-base font-medium leading-7 text-emerald-500">
                                 {formatDate(comment.DatePosted)}
                             </h4>
                             <p className="text-slate-500">
-                                {comment.Message}
+                                {comment.Message ? comment.Message : "n/a"}
                             </p>
 
                             
@@ -97,7 +98,7 @@ const CommentTimeline: React.FC<CommentTimelineProps> = ({ comments, onDelete, o
                 ))}
             </ul>
             {comments.length === 0 && (
-                <p className="text-lg text-slate-500">No spawn data available for this Pokémon.</p>
+                <p className="text-lg text-slate-500">No comments yet!</p>
             )}
             {
                 isFormVisible && (

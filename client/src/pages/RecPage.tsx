@@ -15,17 +15,13 @@ const RecPage: React.FC = () =>  {
     if (RecName) { 
       const fetchRecreation = async () => {
         const data = await getRecreationByRecName(RecName);
-        console.log('Initial Fetched Data:', data);      
         setRecreation(data);
       };
       fetchRecreation();
     }
   }, [RecName]);
 
-  useEffect(() => {
-    console.log('Updated rec state:', rec);
-  }, [rec]);
-
+  useEffect(() => { }, [rec]);
 
 
   useEffect(() => {
@@ -36,7 +32,7 @@ const RecPage: React.FC = () =>  {
         };
         fetchComment();
     }
-}, [RecName]);  // Re-fetch only when fetchNewComment toggles
+}, [RecName]);  
 
   if (!rec) { return <></>; }
 

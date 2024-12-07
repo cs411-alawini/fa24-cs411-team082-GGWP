@@ -8,8 +8,6 @@ router.get("/", async (req: Request, res: Response) => {
     try {
         console.log("here");
         const recreation = await getAllRecreations();
-        console.log(recreation);
-
         res.status(200).json(recreation);
     } catch (error) {
         res.status(500).json({ message: "Error fetching recreation data." });
@@ -19,7 +17,6 @@ router.get("/", async (req: Request, res: Response) => {
 // Fetch recreation by name
 router.get("/:name", async (req: Request, res: Response) => {
     const recName = decodeURIComponent(req.params.name);
-    console.log('Decoded recName:', recName);  // Should show the exact RecName, including quotes if present
     
     try {
         const recreation = await getRecreationByName(recName);
@@ -29,7 +26,6 @@ router.get("/:name", async (req: Request, res: Response) => {
             res.status(404).json({ message: `Recreation '${recName}' not found.` });
         }
     } catch (error) {
-        console.log('Decoded recName:', recName);  // Should show the exact RecName, including quotes if present
         res.status(500).json({ message: "Error fetching recreation data." });
     }
 });
