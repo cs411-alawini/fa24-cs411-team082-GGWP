@@ -89,6 +89,10 @@ const CommentTimeline: React.FC<CommentTimelineProps> = ({
                             <h4 className="text-base font-medium leading-7 text-emerald-500">
                                 {formatDate(comment.DatePosted)}
                             </h4>
+                            <p className="text-black">
+                                {comment.Username}
+                            </p>
+
                             <p className="text-slate-500">
                                 {comment.Message ? comment.Message : "n/a"}
                             </p>

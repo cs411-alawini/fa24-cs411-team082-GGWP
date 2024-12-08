@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import { initializeDatabase } from './src/services/database';
 import listEndpoints from 'express-list-endpoints';
 
 // Initialize the app
@@ -29,14 +28,7 @@ app.use("/api/users", usersRoutes);
 // Log all endpoints after routes are registered
 console.log(listEndpoints(app));
 
-// Initialize the database and start the server
-initializeDatabase()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server running at http://localhost:${PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.error("Failed to initialize database:", error);
-    process.exit(1);
-  });
+
+app.listen(PORT, () => {
+  console.log(`Project running on http://localhost:${PORT}`);
+});

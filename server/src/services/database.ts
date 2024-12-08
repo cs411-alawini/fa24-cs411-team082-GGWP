@@ -1,7 +1,7 @@
-
 import pool from "./connection";
-import { RowDataPacket } from "mysql2/promise";
-import { v4 as uuidv4 } from 'uuid';
+import { RowDataPacket } from "mysql2";
+// import { v4 as uuidv4 } from 'uuid';
+
 // tables
 import { Recreation } from "../model/Recreation";
 import { Comments } from "../model/Comments";
@@ -9,7 +9,40 @@ import { Discounts } from "../model/Discounts";
 import { Favorites } from "../model/Favorites";
 import { States } from "../model/States";
 import { Users } from "../model/Users";
-import { OkPacket } from 'mysql2';
+// import { OkPacket } from 'mysql2';
+
+// Testing SQL Codes
+export async function testSQL(): Promise<void> {
+    const [rows] = await pool.query<RowDataPacket[]>("SHOW CREATE TABLE Comments");
+    console.log(rows);
+}
+
+// testSQL();
+
+// Database Initialization
+export async function initializeDatabase(): Promise<void> {
+    console.log("Initializing database...");
+    await renameCommentColumn();
+    console.log("Database initialization complete.");
+    console.log("Incrementing CommentId...");
+    await autoIncrementCommentId();
+    console.log("CommentId incremented.");
+}
+  
+
+export async function autoIncrementCommentId() {
+    try {
+      await pool.query("ALTER TABLE Comments MODIFY COLUMN CommentId INT AUTO_INCREMENT;");
+      console.log("Column altered successfully.");
+    } catch (error) {
+      console.error("Error altering column:", error);
+    }
+  }
+
+
+initializeDatabase();
+
+
 
 // Recreation
 export async function getAllRecreations(): Promise<Recreation[]> {
@@ -25,7 +58,6 @@ export async function getRecreationByName(name: string): Promise<Recreation | un
 }   
 
 // Comments
-
 export async function renameCommentColumn(): Promise<void> {
     const connection = await pool.getConnection();
     try {
@@ -46,11 +78,6 @@ export async function renameCommentColumn(): Promise<void> {
     }
   }
   
-  export async function initializeDatabase(): Promise<void> {
-    console.log("Initializing database...");
-    await renameCommentColumn();
-    console.log("Database initialization complete.");
-  }
 
 export async function getAllComments(): Promise<Comments[]> {
     const [rows] = await pool.query<RowDataPacket[]>("SELECT * FROM Comments ORDER BY CommentId LIMIT 1, 1000000;");
@@ -66,14 +93,6 @@ export async function getCommentsByRecreation(recName: string): Promise<Comments
     return rows as Comments[];
 }
 
-export async function autoIncrementCommentId() {
-    try {
-      await pool.query("ALTER TABLE Comments MODIFY COLUMN CommentId INT AUTO_INCREMENT PRIMARY KEY;");
-      console.log("Column altered successfully.");
-    } catch (error) {
-      console.error("Error altering column:", error);
-    }
-  }
 
 export async function addComment(newComment: Comments): Promise<void> {
     const { Username, RecName, Message, DatePosted } = newComment;
