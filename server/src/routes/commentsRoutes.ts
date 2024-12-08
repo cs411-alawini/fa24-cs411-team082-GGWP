@@ -46,6 +46,7 @@ router.get("/:recName", async (req: Request, res: Response) => {
   const recName = req.params.recName;
   try {
     const comments = await getCommentsByRecreation(recName);
+    console.log(comments);
     res.status(200).json(comments);
   } catch (error) {
     res.status(500).json({ message: "Error fetching comments." });

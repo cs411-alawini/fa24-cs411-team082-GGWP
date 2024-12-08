@@ -63,10 +63,10 @@ export const searchUserData = (Username: string): Promise<Users[]> => {
 
 export const searchCommentData = (searchData: string): Promise<Comments[]> => {
     return httpClient
-        .get(`/api/comments`, {
-            params: { search: searchData },
-        })
-        // .get(`/api/comments/${encodeURIComponent(searchData)}`)
+        // .get(`/api/comments`, {
+        //     params: { search: searchData },
+        // })
+        .get(`/api/comments/${encodeURIComponent(searchData)}`)
         .then((response) => response.data)
 };
 

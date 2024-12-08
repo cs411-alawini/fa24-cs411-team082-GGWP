@@ -50,12 +50,12 @@ export async function getAllRecreations(): Promise<Recreation[]> {
     return rows as Recreation[]; // Type assertion to cast RowDataPacket[] to Recreation[]
 }
 
-export async function getRecreationByName(name: string): Promise<Recreation | undefined> {
+export async function getRecreationByName(name: string): Promise<Recreation[] | undefined> {
     const [rows] = await pool.query<RowDataPacket[]>(
         "SELECT * FROM Recreation WHERE RecName LIKE ?", [`%${name}%`]
     );
-    return rows[0] as Recreation | undefined;
-}   
+    return rows as Recreation[] | undefined;
+}  
 
 // Comments
 export async function renameCommentColumn(): Promise<void> {
@@ -86,11 +86,16 @@ export async function getAllComments(): Promise<Comments[]> {
 
 
 export async function getCommentsByRecreation(recName: string): Promise<Comments[]> {
-    const [rows] = await pool.query<RowDataPacket[]>(
-        "SELECT * FROM Comments WHERE RecName = ?",
-        [recName]
-    );
-    return rows as Comments[];
+    try {
+        // Query database to filter comments by recName
+        const [rows] = await pool.query<RowDataPacket[]>(
+            "SELECT * FROM Comments WHERE RecName = ?", [recName]
+        );
+        return rows as Comments[];
+      } catch (error) {
+        throw new Error("Error fetching comments by recreation.");
+      }
+    
 }
 
 
