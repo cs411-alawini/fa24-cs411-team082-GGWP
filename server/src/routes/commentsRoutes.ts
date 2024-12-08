@@ -94,4 +94,11 @@ router.delete("/:id", async (req: Request, res: Response) => {
   }
 });
 
+router.post("/", async (req: Request, res: Response) => {
+  const newComment: Comments = req.body;
+  await addComment(newComment);
+  res.status(201).json({ message: "Comment successfully added.", newComment});
+  // Generate CommentId using Date.now()
+});
+
 export default router;

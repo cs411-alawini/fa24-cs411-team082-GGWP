@@ -99,23 +99,40 @@ export async function getCommentsByRecreation(recName: string): Promise<Comments
 }
 
 
+// export async function addComment(newComment: Comments): Promise<void> {
+//     const { Username, RecName, Message, DatePosted } = newComment;
+  
+//     console.log("Attempting to insert comment:", newComment);
+  
+//     try {
+//       await pool.query(
+//         `INSERT INTO Comments (Username, RecName, Message, DatePosted) VALUES (?, ?, ?, ?)`,
+//         [Username, RecName, Message, DatePosted]
+//       );
+//       console.log("Comment inserted successfully.");
+//     } catch (error) {
+//       console.error("Database error inserting comment:", error);
+//       throw error; // Rethrow the error to be caught by the route handler
+//     }
+//   }
+  
+
+  
 export async function addComment(newComment: Comments): Promise<void> {
-    const { Username, RecName, Message, DatePosted } = newComment;
-  
-    console.log("Attempting to insert comment:", newComment);
-  
-    try {
-      await pool.query(
-        `INSERT INTO Comments (Username, RecName, Message, DatePosted) VALUES (?, ?, ?, ?)`,
-        [Username, RecName, Message, DatePosted]
-      );
-      console.log("Comment inserted successfully.");
-    } catch (error) {
-      console.error("Database error inserting comment:", error);
-      throw error; // Rethrow the error to be caught by the route handler
-    }
-  }
-  
+const { CommentId, Username, RecName, Message, DatePosted } = newComment;
+
+try {
+    // Include CommentId in the query
+    await pool.query(
+    "INSERT INTO Comments (Username, RecName, Message, DatePosted) VALUES (?, ?, ?, ?)",
+    [Username, RecName, Message, DatePosted]
+    );
+    console.log("Comment added successfully with CommentId:", CommentId);
+} catch (error) {
+    console.error("Error adding comment:", error);
+    throw error; // Propagate the error to be handled by the caller
+}
+}
 export async function updateComments(comment: Comments): Promise<Comments | null> {
     // First, perform the UPDATE
     const [updateResult] = await pool.query(
