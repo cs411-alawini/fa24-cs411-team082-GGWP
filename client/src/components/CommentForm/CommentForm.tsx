@@ -27,7 +27,7 @@ return (
       <form onSubmit={handleSubmit}>
         {/* Comment Text Field */}
         <div>
-          <label htmlFor="text" className="block text-sm font-medium text-gray-900">
+          <label htmlFor="message" className="block text-sm font-medium text-gray-900">
             Comment
           </label>
           <input

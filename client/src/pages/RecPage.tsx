@@ -38,23 +38,23 @@ const RecPage: React.FC = () =>  {
 
   if (!rec) { return <></>; }
 
-  const handleDeleteComment = (CommentId: number) => {
+const handleDeleteComment = (CommentId: number) => {
     const updatedComments = comments.filter((comment) => comment.CommentId !== CommentId);
-    setComments(updatedComments);
-    setFetchNewComment((prevState) => !prevState);
-  };
+    setComments(updatedComments); // Update local state by removing the deleted comment
+};
 
-  const handleAddComment = (newComment: Comments) => {
-    setComments([...comments, newComment]);
-  };
+const handleAddComment = (newComment: Comments) => {
+    setComments([...comments, newComment]); // Update local state with the new comment
+};
 
 
-  const handleUpdateComment = (updatedComment: Comments) => {
-      const updatedComments = comments.map((comment) =>
-          comment.CommentId === updatedComment.CommentId ? updatedComment : comment
-      );
-      setComments(updatedComments);
-  };
+const handleUpdateComment = (updatedComment: Comments) => {
+  const updatedComments = comments.map((comment) =>
+      comment.CommentId === updatedComment.CommentId ? updatedComment : comment
+  );
+  setComments(updatedComments); // Update local state with the modified comment
+};
+
 
   return (
     <>
@@ -91,9 +91,9 @@ const RecPage: React.FC = () =>  {
               onDelete={handleDeleteComment}
               onAdd={handleAddComment}
               onUpdate={handleUpdateComment}
-              Message={comment?.Message || "Comment undefined"}
-              Username={comment?.Username || "Username undefined"}
-              DatePosted={comment?.DatePosted || "Date undefined"}
+              // Message={comment?.Message || "Comment undefined"}
+              // Username={comment?.Username || "Username undefined"}
+              // DatePosted={comment?.DatePosted || "Date undefined"}
             />
         </div>
     )}

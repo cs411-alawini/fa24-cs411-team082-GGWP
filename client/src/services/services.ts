@@ -127,12 +127,13 @@ export const addComment = (newComment: {Message: string, Username: string, DateP
 };
 
 // Function to update an existing comment
-export const updateComment = (updatedComment: Comments): Promise<void> => {
+export const updateComment = (updatedComment: Comments): Promise<Comments> => {
     return httpClient
-    .put(`/api/comments/${updatedComment.CommentId}`, updatedComment)
-    .then((response) => response.data);
-};
-
+      .put(`/api/comments/${updatedComment.CommentId}`, updatedComment)
+      .then((response) => response.data as Comments);
+  };
+  
+  
 export const deleteComment = (CommentId: number): Promise<void> => {
     return httpClient
     .delete(`/api/comments/${CommentId}`)
