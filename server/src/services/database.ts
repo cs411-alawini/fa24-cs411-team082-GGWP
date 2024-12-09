@@ -81,45 +81,45 @@ export async function autoIncrementCommentId() {
   }
 
  
-//   export async function addComment(newComment: Comments): Promise<void> {
-//     const { CommentId, Username, RecName, Message, DatePosted } = newComment;
+  export async function addComment(newComment: Comments): Promise<void> {
+    const { CommentId, Username, RecName, Message, DatePosted } = newComment;
   
-//     try {
-//       // Include CommentId in the query
-//       await pool.query(
-//         "INSERT INTO Comments (Username, RecName, Message, DatePosted) VALUES (?, ?, ?, ?)",
-//         [Username, RecName, Message, DatePosted]
-//       );
-//       console.log("Comment added successfully with CommentId:", CommentId);
-//     } catch (error) {
-//       console.error("Error adding comment:", error);
-//       throw error; // Propagate the error to be handled by the caller
-//     }
-//   }
-
-  export async function addComment(newComment: Comments): Promise<Comments> {
-    const { Username, RecName, Message, DatePosted } = newComment;
-
     try {
-        // Insert the new comment into the Comments table
-        const [result] = await pool.query(
-            "INSERT INTO Comments (Username, RecName, Message, DatePosted) VALUES (?, ?, ?, ?)",
-            [Username, RecName, Message, DatePosted]
-        );
-
-        // Extract the CommentId from the result (no need for ResultSetHeader type)
-        const commentId = (result as any).insertId;
-
-        // Return the new comment, including the generated CommentId
-        return {
-            ...newComment,
-            CommentId: commentId, // Add the generated CommentId to the returned object
-        };
+      // Include CommentId in the query
+      await pool.query(
+        "INSERT INTO Comments (Username, RecName, Message, DatePosted) VALUES (?, ?, ?, ?)",
+        [Username, RecName, Message, DatePosted]
+      );
+      console.log("Comment added successfully with CommentId:", CommentId);
     } catch (error) {
-        console.error("Error adding comment:", error);
-        throw error; // Propagate the error to be handled by the caller
+      console.error("Error adding comment:", error);
+      throw error; // Propagate the error to be handled by the caller
     }
-}  
+  }
+
+//   export async function addComment(newComment: Comments): Promise<Comments> {
+//     const { Username, RecName, Message, DatePosted } = newComment;
+
+//     try {
+//         // Insert the new comment into the Comments table
+//         const [result] = await pool.query(
+//             "INSERT INTO Comments (Username, RecName, Message, DatePosted) VALUES (?, ?, ?, ?)",
+//             [Username, RecName, Message, DatePosted]
+//         );
+
+//         // Extract the CommentId from the result (no need for ResultSetHeader type)
+//         const commentId = (result as any).insertId;
+
+//         // Return the new comment, including the generated CommentId
+//         return {
+//             ...newComment,
+//             CommentId: commentId, // Add the generated CommentId to the returned object
+//         };
+//     } catch (error) {
+//         console.error("Error adding comment:", error);
+//         throw error; // Propagate the error to be handled by the caller
+//     }
+// }  
   
 export async function updateComments(comment: Comments): Promise<Comments | null> {
     // First, perform the UPDATE
