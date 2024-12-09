@@ -20,13 +20,23 @@ router.get("/", async (req: Request, res: Response) => {
 // Add a new discount
 router.post("/", async (req: Request, res: Response) => {
     try {
-        const newDiscount: Discounts = req.body; // Get discount from request body
-        await addDiscount(newDiscount); // Add the discount using your database function
+        // Extract data from request body and validate it
+        const { DiscountId, RecName, DiscountType, Description } = req.body;
+        
+        // Construct new discount object based on the request body
+        const newDiscount: Discounts = { DiscountId, RecName, DiscountType, Description };
+        
+        // Call the service function to add the discount
+        await addDiscount(newDiscount);
+        
+        // Send success response
         res.status(201).json({ message: "Discount added successfully", newDiscount });
     } catch (error) {
-        res.status(500).json({ message: "Error adding discount.", error });
+        console.error(error); // Log the error for debugging
     }
 });
+
+
 
 // Update an existing discount
 router.put("/:id", async (req: Request, res: Response) => {
