@@ -12,7 +12,7 @@ interface CommentTimelineProps {
     comments: Comments[];
     onDelete: (CommentId: number) => void;
     onAdd: (newComment: Comments) => void;
-    onUpdate: (updatedComment: Comments) => void; // Accepts updatedComment
+    onUpdate: (updatedComment: Comments) => void; 
 }
 
 
@@ -22,46 +22,72 @@ const CommentTimeline: React.FC<CommentTimelineProps> = ({
     onAdd,
     onUpdate,
 }) => {
-    const [isFormVisible, setIsFormVisible] = useState(false);
-    const [commentToEdit, setCommentToEdit] = useState<Comments | null>(null);
+const [isFormVisible, setIsFormVisible] = useState(false);
+const [commentToEdit, setCommentToEdit] = useState<Comments | null>(null);
 
-    // Handlers
-    const handleAddComment = () => {
-        setCommentToEdit(null);
-        setIsFormVisible(true);
-    };
+// Handlers
+const handleAddComment = () => {
+    setCommentToEdit(null);
+    setIsFormVisible(true);
+};
 
-    const handleEditComment = (updatedComment: Comments) => {
-        setCommentToEdit(updatedComment);
-        setIsFormVisible(true);
-    };
+const handleEditComment = (updatedComment: Comments) => {
+    setCommentToEdit(updatedComment);
+    setIsFormVisible(true);
+};
 
-    // const handleDelete = async (CommentId: number) => {
-    //     if (!CommentId) {
-    //         console.error("CommentId is missing.");
-    //         return;
-    //     }
-    //     await deleteComment(CommentId);
-    //     onDelete(CommentId);
-    // };
-    const handleDelete = async (CommentId: number) => {
-        await deleteComment(CommentId);
-        onDelete(CommentId); // Notify parent to remove the comment from the state
-    };
-    
+// const handleDelete = async (CommentId: number) => {
+//     if (!CommentId) {
+//         console.error("CommentId is missing.");
+//         return;
+//     }
+//     await deleteComment(CommentId);
+//     onDelete(CommentId);
+// };
+const handleDelete = async (CommentId: number) => {
+    await deleteComment(CommentId);
+    onDelete(CommentId); // Notify parent to remove the comment from the state
+};
 
-    const handleFormSubmit = async (commentData: { Message: string; Username: string; DatePosted: string }) => {
-        if (commentToEdit) {
-            const updatedComment = { ...commentToEdit, ...commentData };
-            await updateComment(updatedComment);
-            onUpdate(updatedComment); // Notify parent to update the state
-        }
-        setCommentToEdit(null);
-        setIsFormVisible(false);
-    };
-    
 
-    return (
+const handleFormSubmit = async (commentData: { Message: string; Username: string; DatePosted: string }) => {
+    if (commentToEdit) {
+        const updatedComment = { ...commentToEdit, ...commentData };
+        await updateComment(updatedComment);
+        onUpdate(updatedComment); // Notify parent to update the state
+    } else {
+        const newComment = await addComment({
+            ...commentData,
+        });
+        onAdd(newComment); // Notify parent to add the new comment to the state
+        // const maxCommentId = Math.max(...comments.map(comment => comment.CommentId), 0);
+        // const newCommentId = maxCommentId + 1;
+
+        // // Create the new comment with the required properties, including RecName
+        // const newComment: Comments = {
+        //     CommentId: newCommentId,
+        //     Message: commentData.Message,
+        //     Username: commentData.Username,
+        //     DatePosted: commentData.DatePosted,
+        //     RecName: "Some default or provided recommendation name", // Replace with actual data as needed
+        // };
+
+        // // Add the new comment and notify the parent
+        // onAdd(newComment); // Notify parent to add the new comment to the state
+
+        // // Optionally send the new comment to the backend if needed
+        // await addComment(newComment);
+
+
+    }
+
+    setCommentToEdit(null);
+    setIsFormVisible(false);
+};
+
+console.log("here: ", comments); // Check if CommentId exists for all comments
+
+return (
         <div className="container mx-auto py-8">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold">Comments</h1>

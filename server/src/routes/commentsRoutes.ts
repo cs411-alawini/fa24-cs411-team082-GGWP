@@ -7,12 +7,25 @@ const router = Router();
 
 
 
+// router.post("/", async (req: Request, res: Response) => {
+//   const newComment: Comments = req.body;
+//   await addComment(newComment);
+//   res.status(201).json({ message: "Comment successfully added.", newComment});
+//   // Generate CommentId using Date.now()
+// });
+
 router.post("/", async (req: Request, res: Response) => {
   const newComment: Comments = req.body;
-  await addComment(newComment);
-  res.status(201).json({ message: "Comment successfully added.", newComment});
-  // Generate CommentId using Date.now()
+
+  try {
+    const spawn = await addComment(newComment);
+    // res.status(201).json({ message: "Comment successfully added.", newComment});
+  } catch (error) {
+    res.status(500).json({ message: "Error adding comment from router" });
+  }
 });
+
+
 
 
 router.get("/", async (req: Request, res: Response) => {

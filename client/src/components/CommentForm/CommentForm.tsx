@@ -9,7 +9,7 @@ interface CommentFormProps {
 const CommentForm: React.FC<CommentFormProps> = ({ onClose, onSubmit, defaultCommentData }) => {
   const [message, setMessage] = React.useState<string>(defaultCommentData?.Message || 'No message.');
   const [user, setUser] = React.useState<string>(defaultCommentData?.Username || 'Anonymus');
-  const [date, setDate] = React.useState<string>(defaultCommentData?.DatePosted || '');
+  const [date, setDate] = React.useState<string>(defaultCommentData?.DatePosted || new Date().toISOString());
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

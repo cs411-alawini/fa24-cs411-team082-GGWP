@@ -5,7 +5,6 @@ export interface Users {
     Username: string;     // Unique username
     Email: string;        // Email address of the user
 }
-
 export interface States {
     StateName: string;    // Name or abbreviation of the state
     CityCount: number;    // Number of cities in the state
@@ -13,20 +12,17 @@ export interface States {
     Population: number;   // Population of the state
     TotalArea: number;    // Total area of the state in square miles or km²
 }
-
 export interface Recreation {
     RecName: string;      // Name of the recreational activity
     RecType: string;      // Type of the activity (e.g., park, museum)
     StateName: string;    // The state where it is located
     Address: string;      // Address of the location
 }
-
 export interface Favorites {
     Username: string;     // Username of the person who favorited the activity
     RecName: string;      // Name of the recreation that is favorited
     Status: boolean;      // Status of the favorite (e.g., active/inactive)
 }
-
 export interface Discounts {
     DiscountId: number;   // Unique identifier for the discount
     RecName: string;      // Recreation name associated with the discount
@@ -120,10 +116,14 @@ export const deleteDiscount = (DiscountId: number): Promise<void> => {
     .then((response) => response.data);
 }
 
-export const addComment = (newComment: {Message: string, Username: string, DatePosted: string}): Promise<Comments> => {
+export const addComment = (newComment: { Message: string; Username: string; DatePosted: string }): Promise<Comments> => {
     return httpClient
-    .post(`/api/comments`, newComment)
-    .then((response) => response.data);
+        .post(`/api/comments`, newComment)
+        .then((response) => response.data)
+        .catch((error) => {
+            console.error('Failed to add comment:', error);
+            throw error;
+        });
 };
 
 // Function to update an existing comment

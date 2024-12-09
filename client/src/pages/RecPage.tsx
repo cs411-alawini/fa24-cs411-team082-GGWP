@@ -28,15 +28,14 @@ const RecPage: React.FC = () =>  {
 
   useEffect(() => {
     if (RecName) {
-        const fetchComment = async () => {
+        const fetchComments = async () => {
             const data = await searchCommentData(RecName);
             setComments(data);
         };
-        fetchComment();
+        fetchComments();
     }
 }, [RecName]);  
 
-  if (!rec) { return <></>; }
 
 const handleDeleteComment = (CommentId: number) => {
     const updatedComments = comments.filter((comment) => comment.CommentId !== CommentId);
@@ -44,8 +43,9 @@ const handleDeleteComment = (CommentId: number) => {
 };
 
 const handleAddComment = (newComment: Comments) => {
-    setComments([...comments, newComment]); // Update local state with the new comment
-};
+    // setComments([...comments, newComment]); // Update local state with the new comment
+    setComments((prevComments) => [...prevComments, newComment]);
+  };
 
 
 const handleUpdateComment = (updatedComment: Comments) => {
@@ -54,6 +54,8 @@ const handleUpdateComment = (updatedComment: Comments) => {
   );
   setComments(updatedComments); // Update local state with the modified comment
 };
+
+  if (!rec) { return <></>; }
 
 
   return (

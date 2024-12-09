@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import * as dotenv from 'dotenv';
-import { autoIncrementCommentId } from './database';
+// import { initializeDatabase } from './database';
 dotenv.config();
 
 // Check for required environment variables
@@ -19,12 +19,8 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
 });
-async function incrementComments() {
-  await autoIncrementCommentId();
-  console.log("CommentId incremented.");
-}
 
-incrementComments();
+
 console.log('Connected to MySQL database');
 
 // Export the pool for use in other modules

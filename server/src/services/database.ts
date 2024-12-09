@@ -1,7 +1,7 @@
 
 import pool from "./connection";
 import { RowDataPacket } from "mysql2/promise";
-import { v4 as uuidv4 } from 'uuid';
+
 // tables
 import { Recreation } from "../model/Recreation";
 import { Comments } from "../model/Comments";
@@ -11,6 +11,7 @@ import { States } from "../model/States";
 import { Users } from "../model/Users";
 import { OkPacket } from 'mysql2';
 import type { ResultSetHeader,FieldPacket } from "mysql2";
+initializeDatabase();
 
 
 // Recreation
@@ -19,12 +20,11 @@ export async function getAllRecreations(): Promise<Recreation[]> {
     return rows as Recreation[]; // Type assertion to cast RowDataPacket[] to Recreation[]
 }
 
-export async function getRecreationByName(name: string): Promise<Recreation[] | undefined> {
+export async function getRecreationByName(name: string): Promise<Recreation | undefined> {
     const [rows] = await pool.query<RowDataPacket[]>(
         "SELECT * FROM Recreation WHERE RecName LIKE ?", [`%${name}%`]
     );
-    console.log(rows);
-    return rows as Recreation[] | undefined;
+    return rows[0] as Recreation | undefined;
 }   
 
 // Comments
@@ -52,7 +52,9 @@ export async function renameCommentColumn(): Promise<void> {
   export async function initializeDatabase(): Promise<void> {
     console.log("Initializing database...");
     await renameCommentColumn();
-    console.log("Database initialization complete.");
+    console.log("Database initialization complete. Now incrementing CommentId...");
+    await autoIncrementCommentId();
+    console.log("Incrementing CommentId complete.");
   }
 
 export async function getAllComments(): Promise<Comments[]> {
@@ -71,37 +73,53 @@ export async function getCommentsByRecreation(recName: string): Promise<Comments
 
 export async function autoIncrementCommentId() {
     try {
-      await pool.query("ALTER TABLE Comments MODIFY COLUMN CommentId INT AUTO_INCREMENT PRIMARY KEY;");
-      console.log("Column altered successfully.");
+      await pool.query("ALTER TABLE Comments MODIFY COLUMN CommentId INT AUTO_INCREMENT;");
+      console.log("CommentId auto-incremented successfully.");
     } catch (error) {
       console.error("Error altering column:", error);
     }
   }
 
-  interface Comment {
-    CommentId: number; // Manually set CommentId
-    Username: string;
-    RecName: string;
-    Message: string;
-    DatePosted: string; // Assuming this is a valid date string
-  }
+ 
+//   export async function addComment(newComment: Comments): Promise<void> {
+//     const { CommentId, Username, RecName, Message, DatePosted } = newComment;
   
-  export async function addComment(newComment: Comment): Promise<void> {
-    const { CommentId, Username, RecName, Message, DatePosted } = newComment;
-  
+//     try {
+//       // Include CommentId in the query
+//       await pool.query(
+//         "INSERT INTO Comments (Username, RecName, Message, DatePosted) VALUES (?, ?, ?, ?)",
+//         [Username, RecName, Message, DatePosted]
+//       );
+//       console.log("Comment added successfully with CommentId:", CommentId);
+//     } catch (error) {
+//       console.error("Error adding comment:", error);
+//       throw error; // Propagate the error to be handled by the caller
+//     }
+//   }
+
+  export async function addComment(newComment: Comments): Promise<Comments> {
+    const { Username, RecName, Message, DatePosted } = newComment;
+
     try {
-      // Include CommentId in the query
-      await pool.query(
-        "INSERT INTO Comments (Username, RecName, Message, DatePosted) VALUES (?, ?, ?, ?)",
-        [Username, RecName, Message, DatePosted]
-      );
-      console.log("Comment added successfully with CommentId:", CommentId);
+        // Insert the new comment into the Comments table
+        const [result] = await pool.query(
+            "INSERT INTO Comments (Username, RecName, Message, DatePosted) VALUES (?, ?, ?, ?)",
+            [Username, RecName, Message, DatePosted]
+        );
+
+        // Extract the CommentId from the result (no need for ResultSetHeader type)
+        const commentId = (result as any).insertId;
+
+        // Return the new comment, including the generated CommentId
+        return {
+            ...newComment,
+            CommentId: commentId, // Add the generated CommentId to the returned object
+        };
     } catch (error) {
-      console.error("Error adding comment:", error);
-      throw error; // Propagate the error to be handled by the caller
+        console.error("Error adding comment:", error);
+        throw error; // Propagate the error to be handled by the caller
     }
-  }
-  
+}  
   
 export async function updateComments(comment: Comments): Promise<Comments | null> {
     // First, perform the UPDATE
