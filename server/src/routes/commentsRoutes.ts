@@ -18,7 +18,7 @@ router.post("/", async (req: Request, res: Response) => {
   const newComment: Comments = req.body;
 
   try {
-    const spawn = await addComment(newComment);
+    await addComment(newComment);
     // res.status(201).json({ message: "Comment successfully added.", newComment});
   } catch (error) {
     res.status(500).json({ message: "Error adding comment from router" });
